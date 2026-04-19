@@ -120,6 +120,7 @@ ${
 
             if (res?.data?.success && typeof res.data.message_id === 'number') {
                 setMessageId(res.data.message_id);
+                localStorage.setItem('message', message);
             }
 
             nextStep();

